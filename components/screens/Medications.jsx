@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, ScrollView, Switch, Pressable, StyleSheet, TouchableOpacity } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import CheckBox from 'expo-checkbox';
+import AddMedications from './AddMedications';
 
 const Medications = () => {
   const [medicines, setMedicines] = useState([]);
@@ -26,43 +27,43 @@ const [selectedDoses, setSelectedDoses] = useState(false);
     }));
   };
 
-  const handleAddMedicine = () => {
-    const medicineCnt = medicines.length; 
-    setMedicines([...medicines, {id: medicineCnt, name: "" }]);
+  const handleAddMedicine = (newMedication) => {
+    setMedicines(prevMedicines => [...prevMedicines, newMedication]);
+    setShowAddMed(false);
   };
+  const [showAddMed, setShowAddMed] = useState(false);
 
   return (
     <View style={{flex: 1}}>
-    <ScrollView contentContainerStyle={styles.container}>
-      {medicines.map((medicine) => (
-        <View key={medicine.id} style={styles.medicineContainer}>
-          <Text style={styles.medicineName}>{medicine.name}</Text>
-          <View style={styles.doseContainer}>
-            {['Morning', 'Afternoon', 'Night'].map((dose) => (
-              <View key={dose} style={styles.doseItem}>
-                <Text>{dose.charAt(0).toUpperCase() + dose.slice(1)}</Text>
-                <CheckBox
-                  value={selectedDoses[medicine.id]?.[dose] || false}
-                  onValueChange={() => toggleDose(medicine.id, dose)}
-                />
-              </View>
-            ))}
-          </View>
-          <View style={styles.mealSwitchContainer}>
-            <Text>Before Meal</Text>
-            <Switch
-              value={mealSwitches[medicine.id] || false}
-              onValueChange={() => toggleMealSwitch(medicine.id)}
-            />
-            <Text>After Meal</Text>
-          </View>
-        </View>
-      ))}
-    </ScrollView>
-      <TouchableOpacity onPress={handleAddMedicine} style={styles.addButton}>
-        <AntDesign name="pluscircle" size={45} color="black" />
-      </TouchableOpacity>
+        {
+            !showAddMed ?
+            <View style={{flex: 1}}>
+          
+
+                {
+  medicines.map((medicine, index) => (
+    <View key={index} style={styles.medicineContainer}>
+      <Text style={styles.medicineName}>{medicine.medicineName}</Text>
+      <View style={styles.doseContainer}>
+        {medicine.selectedTimes.map((time, idx) => (
+          <Text key={idx}>{time}</Text>
+        ))}
       </View>
+      <View style={styles.mealSwitchContainer}>
+        <Text>{medicine.mealTime}</Text>
+      </View>
+    </View>
+  ))
+}
+
+                  <TouchableOpacity onPress={handleAddMedicine} style={styles.addButton}>
+                    <AntDesign name="pluscircle" size={45} color="black" />
+                  </TouchableOpacity>
+                </View>
+            :
+            <AddMedications setShowEditDetails={setShowAddMed} showEditDetails={showAddMed}/>
+        }
+    </View>
   );
 };
 
