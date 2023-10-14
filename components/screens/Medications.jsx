@@ -6,9 +6,9 @@ import CheckBox from 'expo-checkbox';
 const Medications = () => {
   const [medicines, setMedicines] = useState([]);
 
-  const [selectedDoses, setSelectedDoses] = useState({});
   const [mealSwitches, setMealSwitches] = useState({});
 
+const [selectedDoses, setSelectedDoses] = useState(false);
   const toggleDose = (medicineId, dose) => {
     setSelectedDoses((prevState) => ({
       ...prevState,
