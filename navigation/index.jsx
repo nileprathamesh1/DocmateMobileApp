@@ -28,17 +28,14 @@ export default function Navigator(props){
 
 
 	return(
-	    <NavigationContainer> 
-	      <Stack.Navigator>
-	        {/*<Stack.Screen name="Login" component={Login} options={{
+	    <NavigationContainer>
+	      <Stack.Navigator>   	
+	        <Stack.Screen name="Login" component={Login} options={{
 	        	headerShown: false
-          	}}/>*/}
-          	      <Stack.Screen name="Home" component={Home} options={{headerShown: false}}/>
-	        {/*<Stack.Screen name="Signup" component={Signup} />*/}
+          	}}/>
+	        <Stack.Screen name="Signup" component={RegisterScreen} options={{headerShown: false}} />
+			<Stack.Screen name="Home" component={Home} options={{headerShown: false}}/>
 	      </Stack.Navigator>
-	      {/*<Stack.Navigator>   	
-	  
-	      </Stack.Navigator>*/}
 	    </NavigationContainer>
   );
 }
