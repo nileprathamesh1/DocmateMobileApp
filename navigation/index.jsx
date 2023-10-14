@@ -11,22 +11,6 @@ import { IsLoggedIn } from '../Apis';
 const Stack = createStackNavigator();
 
 export default function Navigator(props){
-
-
-	const [isLoggedIn, setIsLoggedIn] = React.useState(false);
-	const checkIsLoggedIn = async () => {
-		const resp = await IsLoggedIn();
-
-		console.log('resp', resp);
-		if(resp?.data?.isLoggedIn)
-			setIsLoggedIn(true);
-	}
-
-	React.useEffect(() => {
-		checkIsLoggedIn();
-	}, [checkIsLoggedIn]);
-
-
 	return(
 	    <NavigationContainer>
 	      <Stack.Navigator>   	
