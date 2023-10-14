@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Login from '../components/screens/Login';
 import RegisterScreen from '../components/screens/Register';
+import Home from '../components/screens/Home';
 // import Login from '../components/screens/Login';
 
 
@@ -17,7 +18,9 @@ export default function Navigator(props){
 	    <NavigationContainer>
 	     {/*isLoggedIn ? */}
 	      <Stack.Navigator>   	
-	        <Stack.Screen name="Login" component={Login} />
+	        <Stack.Screen name="Login" component={Home} options={{
+	        	headerShown: false
+          	}}/>
 	        {/*<Stack.Screen name="Signup" component={Signup} />*/}
 	      </Stack.Navigator>
 	      {/*:
