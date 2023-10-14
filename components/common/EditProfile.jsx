@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Image, Text, Button, StyleSheet, Modal, Pressable } from 'react-native'; 
+import { View, Image, Text, Button, StyleSheet, Modal, Pressable, TextInput } from 'react-native'; 
 import { Ionicons } from '@expo/vector-icons'; 
 import { MaterialIcons } from '@expo/vector-icons'; 
 
@@ -20,8 +20,20 @@ const EditDetails = ({showEditDetails, setShowEditDetails}) => {
           <View style={styles.modalView}>
             <View style={styles.header}>
               <Text style={styles.modalText}>EDIT DETAILS</Text>
+              <Pressable
+              style={[ styles.cross]}
+              onPress={() => setShowEditDetails(!showEditDetails)}>
+              <Ionicons name="close" size={24} color="black"  />            
+            </Pressable>
+           </View>
+            <View style = {styles.form}>
+              <TextInput placeholder="Name" marginTop='10'/>
+              <TextInput placeholder="Email"/>
+              <TextInput placeholder="Phone number"/>
+              {/*</TextInput>*/}
             </View>
-            <Pressable
+
+           <Pressable
               style={[styles.button, styles.buttonClose, styles.submit]}
               onPress={() => setShowEditDetails(!showEditDetails)}>
               <Ionicons name="checkmark-done-sharp" size={24} color="white" />            
@@ -37,10 +49,20 @@ const EditDetails = ({showEditDetails, setShowEditDetails}) => {
 
 const styles = StyleSheet.create({
   header: {
-    flex: 1,
-    position: 'absolute',
-    top: 1,
-    marginTop: 10
+    // flex: 1,
+    // position: 'absolute',
+    // top: 1,
+    marginTop: 10,
+
+  },
+
+  form:{
+
+    marginTop: 50,
+  },
+  cross:{
+    left: 195,
+    position: 'absolute' 
   },
   submit: {
     position: 'absolute',
@@ -56,8 +78,6 @@ const styles = StyleSheet.create({
     margin: 20,
     backgroundColor: 'white',
     borderRadius: 20,
-    paddingTop: 450,
-    paddingLeft: 250,
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
