@@ -13,6 +13,7 @@ const Stack = createStackNavigator();
 export default function Navigator(props){
 
 
+	const [isLoggedIn, setIsLoggedIn] = React.useState(false);
 	const checkIsLoggedIn = async () => {
 		const resp = await IsLoggedIn();
 
@@ -21,25 +22,23 @@ export default function Navigator(props){
 			setIsLoggedIn(true);
 	}
 
-	const [isLoggedIn, setIsLoggedIn] = React.useState(false);
 	React.useEffect(() => {
 		checkIsLoggedIn();
 	}, [checkIsLoggedIn]);
 
 
 	return(
-	    <NavigationContainer>
-	     {!isLoggedIn ? 
-	      <Stack.Navigator>   	
-	        <Stack.Screen name="Login" component={Login} options={{
+	    <NavigationContainer> 
+	      <Stack.Navigator>
+	        {/*<Stack.Screen name="Login" component={Login} options={{
 	        	headerShown: false
-          	}}/>
+          	}}/>*/}
+          	      <Stack.Screen name="Home" component={Home} options={{headerShown: false}}/>
 	        {/*<Stack.Screen name="Signup" component={Signup} />*/}
 	      </Stack.Navigator>
-	      :
-	      <Stack.Navigator>   	
-	        <Stack.Screen name="Home" component={Home} />
-	      </Stack.Navigator>}
+	      {/*<Stack.Navigator>   	
+	  
+	      </Stack.Navigator>*/}
 	    </NavigationContainer>
   );
 }

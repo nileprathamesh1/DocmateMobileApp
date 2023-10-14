@@ -1,4 +1,4 @@
-const HOST = "http://10.20.60.252:9099/";
+const HOST = "http://192.168.198.207:9099/";
 
 export function IsLoggedIn(){
 
@@ -14,4 +14,20 @@ export function IsLoggedIn(){
 		const json = await resp.json();
 		resolve(json);
 	})
+}
+
+export async function Login(formBody){
+	const resp = await fetch(HOST + 'auth/login', {
+      method: 'POST',
+      body: formBody,
+      headers: {
+        //Header Defination
+        'Content-Type':
+        'application/x-www-form-urlencoded;charset=UTF-8',
+      },
+    });
+
+    const json =  await resp.json();
+    return json;
+      
 }

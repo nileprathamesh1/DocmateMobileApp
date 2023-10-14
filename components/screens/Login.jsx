@@ -16,6 +16,7 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
 } from 'react-native';
+import { Login as LoginApi } from '../../Apis';
 
 //import AsyncStorage from '@react-native-community/async-storage';
 
@@ -23,8 +24,8 @@ import {
 
 const Login = ({navigation}) => {
 
-	const showToast = () => {
-    ToastAndroid.show('Enter the correct information', ToastAndroid.SHORT);
+	const showToast = (text) => {
+    ToastAndroid.show(text, ToastAndroid.SHORT);
   }; 
 
   const [userEmail, setUserEmail] = useState('');
@@ -56,29 +57,21 @@ const Login = ({navigation}) => {
     }
     formBody = formBody.join('&');
 
-    fetch('http://localhost:3000/api/user/login', {
-      method: 'POST',
-      body: formBody,
-      headers: {
-        //Header Defination
-        'Content-Type':
-        'application/x-www-form-urlencoded;charset=UTF-8',
-      },
-    })
-      .then((response) => response.json())
-      .then((responseJson) => {
+    LoginApi().
+      then((responseJson) => {
         //Hide Loader
         setLoading(false);
         console.log(responseJson);
+                  navigation.replace('Home');
         // If server response message same as Data Matched
-        if (responseJson.status === 'success') {
-          AsyncStorage.setItem('user_id', responseJson.data.email);
-          console.log(responseJson.data.email);
-          navigation.replace('DrawerNavigationRoutes');
-        } else {
-          setErrortext(responseJson.msg);
-          console.log('Please check your email id or password');
-        }
+        // if (responseJson=== 'success') {
+        //   AsyncStorage.setItem('user_id', responseJson.data.email);
+        //   console.log(responseJson.data.email);
+
+        // } else {
+        //   setErrortext(responseJson.msg);
+        //   showToast('Please check your email id or password');
+        // }
       })
       .catch((error) => {
         //Hide Loader
@@ -207,7 +200,7 @@ const styles = StyleSheet.create({
   },
   inputStyle: {
     flex: 1,
-    color: 'white',
+    color: 'black',
     paddingLeft: 15,
     paddingRight: 15,
     borderWidth: 1,
