@@ -18,9 +18,8 @@ const Tab = createMaterialBottomTabNavigator();
 const Home = () => {
     return (
     	<SafeAreaView style={{flex: 1}}>
-		<NavigationContainer independent>
 		  <Tab.Navigator screenOptions={{ headerShown: false  }}>
-		    <Tab.Screen name="Home" component={Dashboard} options={{
+		    <Tab.Screen name="Dashboard" component={Dashboard} options={{
 		    	tabBarIcon: ({ color }) => (
 		            <MaterialIcons name="home" color={color} size={25} />
 		          ),
@@ -42,7 +41,6 @@ const Home = () => {
 		          ),
 		    }} />
 		  </Tab.Navigator>
-		</NavigationContainer>
 		</SafeAreaView>        
     );
 };

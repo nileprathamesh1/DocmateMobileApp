@@ -1,4 +1,4 @@
-const HOST = "http://192.168.198.207:9099/";
+export const HOST = "http://10.20.63.105:9099/";
 
 export function IsLoggedIn(){
 
@@ -12,22 +12,54 @@ export function IsLoggedIn(){
 		});
 
 		const json = await resp.json();
-		resolve(json);
+		resolve({data: json, code: resp.status});
 	})
 }
 
 export async function Login(formBody){
 	const resp = await fetch(HOST + 'auth/login', {
       method: 'POST',
-      body: formBody,
-      headers: {
-        //Header Defination
-        'Content-Type':
-        'application/x-www-form-urlencoded;charset=UTF-8',
-      },
+      body: JSON.stringify(formBody),
+	  headers: {
+		Accept: 'application/json',
+		'Content-Type': 'application/json',
+	  },
     });
-
     const json =  await resp.json();
-    return json;
+    return {data: json, code: resp.status};
+      
+}4
+
+
+export async function SignUp(formBody){
+	const resp = await fetch(HOST + "auth/signup", {
+      method: 'POST',
+      body: formBody,
+
+    });
+	if (!resp.ok) {
+		// Handle network or HTTP error here
+		throw new Error('Network error');
+	  }
+
+	const json = (await resp.json());
+	return json;
+      
+}
+
+
+
+export async function Logout(){
+	const resp = await fetch(HOST + "auth/logout", {
+      method: 'POST',
+
+    });
+	if (!resp.ok) {
+		// Handle network or HTTP error here
+		throw new Error('Network error');
+	  }
+
+	const json = (await resp.json());
+	return json;
       
 }

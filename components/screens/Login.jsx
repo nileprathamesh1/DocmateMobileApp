@@ -2,7 +2,7 @@
 // https://aboutreact.com/react-native-login-and-signup/
 
 // Import React and Component
-import { ImageBackground ,ToastAndroid} from 'react-native';
+import { Dimensions, ImageBackground ,ToastAndroid} from 'react-native';
 
 import React, {useState, createRef} from 'react';
 import {
@@ -16,13 +16,29 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
 } from 'react-native';
-import { Login as LoginApi } from '../../Apis';
+import { IsLoggedIn, Login as LoginApi } from '../../Apis';
 
-//import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-community/async-storage';
+import Loader from '../common/loader';
 
-//import Loader from './Components/Loader';
+// import Loader from './Components/Loader';
 
 const Login = ({navigation}) => {
+  const [loader, setLoader] = useState(true);
+	const checkIsLoggedIn = async () => {
+		const resp = await IsLoggedIn();
+    console.log(resp)
+		if(resp?.code === 200 && resp?.data?.isLoggedIn){
+      console.log("resp")
+      AsyncStorage.setItem('userData', JSON.stringify(resp?.data));
+      navigation.navigate("Home"); 
+    }
+    setLoader(false);
+	}
+
+	React.useEffect(() => {
+		checkIsLoggedIn();
+	}, []);
 
 	const showToast = (text) => {
     ToastAndroid.show(text, ToastAndroid.SHORT);
@@ -38,52 +54,46 @@ const Login = ({navigation}) => {
   const handleSubmitPress = () => {
     setErrortext('');
     if (!userEmail) {
-      //alert('Please fill Email');
-      showToast();
+      showToast("Please fill Email");
       return;
     }
     if (!userPassword) {
-      //alert('Please fill Password');
-      showToast();
+      showToast("Please fill Password");
       return;
     }
     setLoading(true);
     let dataToSend = {email: userEmail, password: userPassword};
-    let formBody = [];
-    for (let key in dataToSend) {
-      let encodedKey = encodeURIComponent(key);
-      let encodedValue = encodeURIComponent(dataToSend[key]);
-      formBody.push(encodedKey + '=' + encodedValue);
-    }
-    formBody = formBody.join('&');
-
-    LoginApi().
-      then((responseJson) => {
+    console.log(
+      dataToSend
+    )
+  
+    LoginApi(dataToSend)
+      .then((responseJson) => {
         //Hide Loader
-        setLoading(false);
-        console.log(responseJson);
-                  navigation.replace('Home');
+        setLoading(false);    
         // If server response message same as Data Matched
-        // if (responseJson=== 'success') {
-        //   AsyncStorage.setItem('user_id', responseJson.data.email);
-        //   console.log(responseJson.data.email);
+        if (responseJson.code === 200) {
+          AsyncStorage.setItem('userData',JSON.stringify(responseJson.data));
+          navigation.replace('Home');
 
-        // } else {
-        //   setErrortext(responseJson.msg);
-        //   showToast('Please check your email id or password');
-        // }
+        } else {
+          setErrortext(responseJson.msg);
+          showToast('Please check your email id or password');
+        }
       })
       .catch((error) => {
         //Hide Loader
         setLoading(false);
-        console.error(error);
+        console.error("error", error);
       });
   };
 
   return (
   <ImageBackground
   source={require('../../assets/background1.png')} // Replace with the actual path to your background image
-  style={styles.mainBody}>
+  style={[styles.mainBody, {width: Dimensions.get('window').width,
+  height: Dimensions.get('window').height,}]}>
+    <Loader loading={loader} />
       
       <ScrollView
         keyboardShouldPersistTaps="handled"
@@ -152,11 +162,12 @@ const Login = ({navigation}) => {
               onPress={handleSubmitPress}>
               <Text style={styles.buttonTextStyle}>LOGIN</Text>
             </TouchableOpacity>
-            <Text
-              style={styles.registerTextStyle}
-              onPress={() => navigation.navigate('RegisterScreen')}>
-              New Here ? Register
-            </Text>
+            <TouchableOpacity
+              style={[styles.buttonStyle, {backgroundColor: "blue"}]}
+              activeOpacity={0.5}
+              onPress={() => navigation.navigate('Signup')}>
+              <Text style={styles.buttonTextStyle}>New Here ? Register</Text>
+            </TouchableOpacity>
           </KeyboardAvoidingView>
         </View>
       </ScrollView>
@@ -171,6 +182,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#FFFFFF',
     alignContent: 'center',
+    position: 'absolute',
+    left: 0,
+    top: 0,
   },
   SectionStyle: {
     flexDirection: 'row',

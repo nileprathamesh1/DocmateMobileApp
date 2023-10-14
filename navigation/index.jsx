@@ -11,34 +11,15 @@ import { IsLoggedIn } from '../Apis';
 const Stack = createStackNavigator();
 
 export default function Navigator(props){
-
-
-	const [isLoggedIn, setIsLoggedIn] = React.useState(false);
-	const checkIsLoggedIn = async () => {
-		const resp = await IsLoggedIn();
-
-		console.log('resp', resp);
-		if(resp?.data?.isLoggedIn)
-			setIsLoggedIn(true);
-	}
-
-	React.useEffect(() => {
-		checkIsLoggedIn();
-	}, [checkIsLoggedIn]);
-
-
 	return(
-	    <NavigationContainer> 
-	      <Stack.Navigator>
-	        {/*<Stack.Screen name="Login" component={Login} options={{
+	    <NavigationContainer>
+	      <Stack.Navigator>   	
+	        <Stack.Screen name="Login" component={Login} options={{
 	        	headerShown: false
-          	}}/>*/}
-          	      <Stack.Screen name="Home" component={Home} options={{headerShown: false}}/>
-	        {/*<Stack.Screen name="Signup" component={Signup} />*/}
+          	}}/>
+	        <Stack.Screen name="Signup" component={RegisterScreen} options={{headerShown: false}} />
+			<Stack.Screen name="Home" component={Home} options={{headerShown: false}}/>
 	      </Stack.Navigator>
-	      {/*<Stack.Navigator>   	
-	  
-	      </Stack.Navigator>*/}
 	    </NavigationContainer>
   );
 }

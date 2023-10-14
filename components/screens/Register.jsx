@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import * as ImagePicker from "expo-image-picker"; 
 import Loader from '../common/loader';
+import { SignUp } from '../../Apis';
 const stylesContainer = StyleSheet.create({
   container: {
     flex: 1,
@@ -34,10 +35,6 @@ const RegisterScreen = (props) => {
   const [loading, setLoading] = useState(false);
   const [errortext, setErrortext] = useState('');
   const [error, setError] = useState(null); 
-  const [
-    isRegistraionSuccess,
-    setIsRegistraionSuccess
-  ] = useState(false);
 
   const pickImage = async () => { 
     const { status } = await ImagePicker. 
@@ -79,10 +76,7 @@ const RegisterScreen = (props) => {
       alert('Please fill Age');
       return;
     }
-    if (!userAddress) {
-      alert('Please fill Address');
-      return;
-    }
+
     if (!userPassword) {
       alert('Please fill Password');
       return;
@@ -93,71 +87,32 @@ const RegisterScreen = (props) => {
       name: userName,
       email: userEmail,
       age: userAge,
-      address: userAddress,
       password: userPassword,
+      file: {
+        uri: file,
+        type: "image/png",
+        name: "profile.png",
+      }
     };
-    var formBody = [];
+    var formBody = new FormData;
     for (var key in dataToSend) {
-      var encodedKey = encodeURIComponent(key);
-      var encodedValue = encodeURIComponent(dataToSend[key]);
-      formBody.push(encodedKey + '=' + encodedValue);
+      var encodedKey = (key);
+      var encodedValue = (dataToSend[key]);
+      formBody.append(encodedKey,  encodedValue);
     }
-    formBody = formBody.join('&');
+    SignUp(formBody).then(responseJson => {
+       //Hide Loader
+      setLoading(false);
 
-    fetch('http://localhost:3000/api/user/register', {
-      method: 'POST',
-      body: formBody,
-      headers: {
-        //Header Defination
-        'Content-Type':
-        'application/x-www-form-urlencoded;charset=UTF-8',
-      },
-    })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        //Hide Loader
-        setLoading(false);
-        console.log(responseJson);
-        // If server response message same as Data Matched
-        if (responseJson.status === 'success') {
-          setIsRegistraionSuccess(true);
-          console.log(
-            'Registration Successful. Please Login to proceed'
-          );
-        } else {
-          setErrortext(responseJson.msg);
-        }
-      })
-      .catch((error) => {
-        //Hide Loader
-        setLoading(false);
-        console.error(error);
-      });
+      console.log(
+        'Registration Successful. Please Login to proceed'
+      );
+      props.navigation.navigate("Login")
+    }).catch(e => {
+      console.log("e", e);
+    });
+   
   };
-  if (isRegistraionSuccess) {
-    
-    return (
-      <ImageBackground source={require('../../assets/background.png')} style={styles.mainBody}>
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: 'white',
-          justifyContent: 'center',
-        }}>
-        
-        <Text style={styles.successTextStyle}>
-          Registration Successful
-        </Text>
-        <TouchableOpacity
-          style={styles.buttonStyle}
-          activeOpacity={0.5}
-          onPress={() => props.navigation.navigate('LoginScreen')}>
-          <Text style={styles.buttonTextStyle}>Login Now</Text>
-         </TouchableOpacity>
-       </View>
-    </ImageBackground>
-     );
-   }
 
   return (
     <ImageBackground source={require('../../assets/background.png')} style={{position: 'absolute',
@@ -247,7 +202,7 @@ const RegisterScreen = (props) => {
               blurOnSubmit={false}
             />
           </View>
-          <View style={styles.SectionStyle}>
+          {/* <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}
               onChangeText={(UserAddress) =>
@@ -263,7 +218,7 @@ const RegisterScreen = (props) => {
               onSubmitEditing={Keyboard.dismiss}
               blurOnSubmit={false}
             />
-          </View>
+          </View> */}
           {errortext != '' ? (
             <Text style={styles.errorTextStyle}>
               {errortext}
