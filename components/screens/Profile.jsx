@@ -30,7 +30,7 @@ const Profile = () => {
           <View style={styles.imageContainer}>           
 			<Image
               style={styles.stretch}
-              source={require('/home/prathamesh/projects/DocmateMobileApp/assets/Virat.png')} // Update the path to your image
+              source={require("../../assets/Virat.png")} // Update the path to your image
             />
           </View>
           
