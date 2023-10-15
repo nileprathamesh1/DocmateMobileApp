@@ -81,6 +81,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
+    marginTop: 60
   },
   background: {
     backgroundColor: '#eaeaea',

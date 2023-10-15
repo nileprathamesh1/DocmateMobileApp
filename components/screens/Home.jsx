@@ -19,11 +19,11 @@ const Home = () => {
     return (
     	<SafeAreaView style={{flex: 1}}>
 		  <Tab.Navigator screenOptions={{ headerShown: false  }}>
-		    <Tab.Screen name="Dashboard" component={Dashboard} options={{
+		    {/*<Tab.Screen name="Dashboard" component={Dashboard} options={{
 		    	tabBarIcon: ({ color }) => (
 		            <MaterialIcons name="home" color={color} size={25} />
 		          ),
-		    }} />
+		    }} />*/}
 		    <Tab.Screen name="Medications" component={Medications} options={{
 		    	tabBarIcon: ({ color }) => (
 		            <MaterialIcons name="medical-services" color={color} size={25} />

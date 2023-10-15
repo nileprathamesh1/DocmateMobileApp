@@ -1,4 +1,4 @@
-export const HOST = "http://10.20.63.105:9099/";
+export const HOST = "http://10.20.61.1:9099/";
 
 export function IsLoggedIn(){
 

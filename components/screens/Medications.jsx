@@ -9,6 +9,8 @@ const Medications = () => {
 
   const [mealSwitches, setMealSwitches] = useState({});
 
+
+
 const [selectedDoses, setSelectedDoses] = useState(false);
   const toggleDose = (medicineId, dose) => {
     setSelectedDoses((prevState) => ({
@@ -34,78 +36,84 @@ const [selectedDoses, setSelectedDoses] = useState(false);
   const [showAddMed, setShowAddMed] = useState(false);
 
   return (
-    <View style={{flex: 1}}>
-        {
-            !showAddMed ?
-            <View style={{flex: 1}}>
-          
-
-                {
-  medicines.map((medicine, index) => (
-    <View key={index} style={styles.medicineContainer}>
-      <Text style={styles.medicineName}>{medicine.medicineName}</Text>
-      <View style={styles.doseContainer}>
-        {medicine.selectedTimes.map((time, idx) => (
-          <Text key={idx}>{time}</Text>
+     <View style={styles.container}>
+      <ScrollView>
+        {medicines.map((medicine, index) => (
+          <View key={index} style={styles.medicineContainer}>
+            <Text style={styles.medicineName}>{medicine.medicineName}</Text>
+            <View style={styles.doseContainer}>
+              {medicine.selectedTimes.map((time, idx) => (
+                <Text key={idx} style={styles.doseItem}>{time}</Text>
+              ))}
+            </View>
+            <View style={styles.mealSwitchContainer}>
+              <Text style={styles.mealSwitchText}>Meal: {medicine.mealTime}</Text>
+            </View>
+            <Text style={styles.numberOfDoses}>Number of Doses: {medicine.numberOfDoses}</Text>
+          </View>
         ))}
-      </View>
-      <View style={styles.mealSwitchContainer}>
-        <Text>{medicine.mealTime}</Text>
-      </View>
-    </View>
-  ))
-}
-
-                  <TouchableOpacity onPress={handleAddMedicine} style={styles.addButton}>
-                    <AntDesign name="pluscircle" size={45} color="black" />
-                  </TouchableOpacity>
-                </View>
-            :
-            <AddMedications setShowEditDetails={setShowAddMed} showEditDetails={showAddMed}/>
-        }
+      </ScrollView>
+      <TouchableOpacity onPress={() => setShowAddMed(true)} style={styles.addButton}>
+        <AntDesign name="pluscircle" size={45} color="black" />
+      </TouchableOpacity>
+      {showAddMed && (
+        <AddMedications setShowEditDetails={setShowAddMed} showEditDetails={showAddMed} onSave={handleAddMedicine} />
+      )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
-    paddingBottom: 100, // Added to make space for the button at the bottom
-  },
-  addButton: {
-    borderColor:'red',
-   position: 'absolute',
-    bottom: 10,
-    right: 20,
-    backgroundColor: 'white',
-    borderRadius:100,
-
+    flex: 1,
+    padding: 16,
+    backgroundColor: '#f5f5f5',
   },
   medicineContainer: {
-    marginTop:50,
-    marginBottom: 10,
-    borderBottomWidth: 1,
-    paddingBottom: 10,
-    borderColor: '#ccc',
-
+    backgroundColor: 'white',
+    borderRadius: 10,
+    margin: 8,
+    padding: 16,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.18,
+    shadowRadius: 1.0,
+    elevation: 1,
   },
   medicineName: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 10,
   },
   doseContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 10,
   },
   doseItem: {
-    alignItems: 'center',
+    fontSize: 14,
   },
   mealSwitchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: "center"
+  },
+  mealSwitchText: {
+    fontSize: 14,
+  },
+  numberOfDoses: {
+    fontSize: 14,
+  },
+   addButton: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+    backgroundColor: 'white', // Change the background color to black
+    borderRadius: 50,
+    width: 50,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 
