@@ -21,11 +21,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
-
+      },
+      "package": "com.prathameshnile1.DocmateMobileApp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "f6da61f8-8159-4bb4-800c-fbe050ba9d78"
+      }
     }
   }
 }
