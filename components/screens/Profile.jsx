@@ -10,7 +10,7 @@ import EditDetails from '../common/EditProfile';
 
 //import { SafeAreaView } from 'react-native-safe-area-context';
 
-import {AsyncStorage} from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { HOST, Logout } from '../../Apis';
 
 const Profile = (props) => {

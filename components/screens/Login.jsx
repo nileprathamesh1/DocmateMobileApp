@@ -18,7 +18,7 @@ import {
 } from 'react-native';
 import { IsLoggedIn, Login as LoginApi } from '../../Apis';
 
-import {AsyncStorage} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Loader from '../common/loader';
 
 // import Loader from './Components/Loader';
