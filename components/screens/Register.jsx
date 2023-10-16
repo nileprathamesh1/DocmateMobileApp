@@ -115,7 +115,7 @@ const RegisterScreen = (props) => {
   };
 
   return (
-    <ImageBackground source={require('../../assets/background.png')} style={{position: 'absolute',
+    <ImageBackground source={require('../../assets/background1.png')} style={{position: 'absolute',
     left: 0,
     top: 0,
     width: Dimensions.get('window').width,
